@@ -1,0 +1,30 @@
+# 1) Basic repo checks
+git rev-parse --is-inside-work-tree
+git status --porcelain -b
+git remote -v
+
+# 2) Ensure git user identity
+git config user.name || echo "user.name not set"
+git config user.email || echo "user.email not set"
+
+# 3) Stage & commit .gitkeep (if not committed)
+ls -la .gitkeep
+git add .gitkeep
+git commit -m "Add .gitkeep to keep directory" || echo "Nothing to commit or commit failed"
+
+# 4) Push (set remote if missing)
+git push -u origin main || {
+  echo "Push failed; show remote and authentication hints:";
+  git remote -v;
+  git branch -vv;
+  gh auth status || echo "gh CLI not authenticated";
+}
+
+# If no remote, add one (choose SSH or HTTPS)
+# SSH:
+git remote add origin git@github.com:humoyun200108/Dr.fone-toolkit-crack-version-.git
+# or HTTPS:
+# git remote add origin https://github.com/humoyun200108/Dr.fone-toolkit-crack-version-.git
+
+# Then push:
+git push -u origin main
